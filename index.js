@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 const fs = require('fs');
 const findInFiles = require('find-in-files');
 const replace = require('replace-in-file');
@@ -18,7 +19,7 @@ const excludeArtifactLines = [
 function getClasses(inputFile) {
     return new Promise(function (resolve, reject) {
         const classesMaps = new Object();
-        const instream = fs.createReadStream(inputFile)
+        const instream = fs.createReadStream(path.resolve(__dirname, inputFile))
         const outstream = new (stream)();
         const rl = readline.createInterface(instream, outstream);
 
@@ -153,17 +154,20 @@ const migrateNamespaces = process.argv[2] === "namespaces";
 const migrateArtifacts = process.argv[2] === "artifacts";
 const migrateAll = process.argv[2] === "both";
 
-const pluginDir = process.argv[3];
+let pluginDir = process.argv[3];
+pluginDir = path.resolve(pluginDir);
 
 console.log("Search and Replace in:" + pluginDir);
 
-if (migrateNamespaces) {
-    console.log("Migrating namespaces only. Please wait this may take a few minutes");
+if (migrateNamespaces || migrateAll) {
+    console.log("Migrating namespaces. Please wait this may take a few minutes");
     const getClassesPromise = getClasses(classesFile);
     getClassesPromise.then(function (classes) {
         migrateAndroidXNamespaces(classes, pluginDir);
     });
-} else if (migrateArtifacts) {
+}
+
+if (migrateArtifacts || migrateAll) {
     console.log("Suggesting artifacts changes. Please wait this may take a few minutes");
     const getClassesPromise = getClasses(artifactsFile);
     getClassesPromise.then(function (artifacts) {
