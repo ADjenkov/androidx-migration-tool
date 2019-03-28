@@ -8,8 +8,7 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "migrate-namespaces": "node --max-old-space-size=4096 index.js namespaces",
-        "migrate-artifacts": "node --max-old-space-size=4096 index.js artifacts"
+        "migrate": "node --max-old-space-size=4096 index.js"
     },
     "author": "AlexanderDjenkov",
     "license": "ISC",
