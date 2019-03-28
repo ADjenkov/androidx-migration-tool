@@ -11,6 +11,8 @@ How to use:
       This operation may take a few minutes to execute (depends on your project structure size).
 
 This tool does not migrate any 3rd party packages or plugins that your project relies on. 
+
 Consider updating your project `package.json` dependencies with AndroidX versions.
+
 Consider deleting your `node_modules` folder for faster migration.
 Demo `test-plugin` included.
