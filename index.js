@@ -42,14 +42,17 @@ function migrateAndroidXNamespaces(classes, pluginDir) {
             p = p.then(_ => new Promise(resolveInner => {
                 const suportNamespace = keys[i];
                 const androidXnamespace = classes[suportNamespace];
+                const suportNamespaceGlobal = suportNamespace.replace("android", "globalAndroid");
 
-                findInFiles.find(suportNamespace, pluginDir, searchInFileTypes)//.gradle
+                const searchRegEx = `${suportNamespace}|${suportNamespaceGlobal}`;
+
+                findInFiles.find(searchRegEx, pluginDir, searchInFileTypes)//.gradle
                     .then(function (results) {
                         const filesWithNamespace = Object.keys(results);
 
                         const options = {
                             files: filesWithNamespace,
-                            from: new RegExp(suportNamespace, 'g'),
+                            from: new RegExp(searchRegEx, 'g'),
                             to: androidXnamespace,
                         };
 
